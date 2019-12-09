@@ -21,6 +21,8 @@ Or, install the provided conda environment
 ``` bash
 conda env create -f binder\environment.yml
 conda activate DGS
+cd ..
+pip install git+https://github.com/dbuscombe-usgs/pyDGS.git
 ```
 
 If you intend to run the jupyter examples (see below), you may also need to install a jupyter kernel associated with the conda environment
@@ -38,6 +40,50 @@ then head to the browser, navigate to notebooks folder, and launch a notebook
 ## Run on binder
 
 https://mybinder.org/v2/gh/dbuscombe-usgs/pyDGS/master
+
+
+## Run on Google Cloud Platform
+
+First, follow instructions here for how to set up an instance to run in GCP. Make sure to set a static IP address, as per the instructions, and make a note of that because you'll need it later
+
+Then open a shell into the VM and set it up to
+
+```
+ssh-keygen -t rsa -b 4096 -C "yourname@youremail.com"
+
+eval "$(ssh-agent -s)"
+
+ssh-add ~/.ssh/id_rsa
+
+cat ~/.ssh/id_rsa.pub
+```
+
+Then copy the key into your github profile keys. For more information about how to do that, see here. xclip likely won't work, but you can simply copy (Ctrl-C) the text printed to screen
+
+You will be cloning your fork of the main repo, so replace YOURUSERNAME in the below code to clone the repo and set up a conda environment to run in
+
+``` bash
+cd ..
+pip install git+https://github.com/YOURUSERNAME/pyDGS.git
+```
+
+Now you can run pyDGS on the cloud.
+
+To run the jupyter notebooks, run the following command to run the jupyter notebook server
+
+```
+cd pyDGS/notebooks
+jupyter notebook --NotebookApp.iopub_data_rate_limit=10000000
+```
+
+The jupyterlab server will be displayed at
+
+```
+http://IP:8888
+```
+
+where IP is the static IP of the VM that you noted earlier.
+
 
 
 ## Test:
